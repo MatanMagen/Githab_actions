@@ -1,0 +1,5 @@
+1. why you have to use the checkout ? 
+2. when working with k8s in dev envierment you most of the time want latest tag so you can refresh deployment and so and take the new image. (if tou work with ARGOCD you dont want) pls for now add latest tag
+3. wtf is master tag ??? pls give tag base on commit sha short version (dont worry it is uniq)
+
+pls fix all that 
