@@ -23,7 +23,7 @@ jobs:
 
     steps:
       - name: Checkout repository
-        uses: actions/setup-python@v3
+        uses: actions/checkout@v4
 
 
       - name: Setup Docker buildx
