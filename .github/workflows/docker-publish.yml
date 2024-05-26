@@ -2,12 +2,19 @@ name: Publish Docker image # name of the workflow
 
 on:
   push:
-    branches: ['master'] # workflow run whenever there is a push to master branch
+    branches: 
+      - master # workflow run whenever there is a push to master branch
 
 jobs:
-  build:
-    name: build the image and Push Docker image to Docker Hub # job name
+  build-push:
+<<<<<<< HEAD
+    name: build the image and push it to Docker Hub # job name
     runs-on: ubuntu-latest #  type of runner that will execute the job
+    environment: matan
+    permissions:
+      contents: read
+      packages: write
+      id-token: write
     
     steps:
       - name: check out the repo # clone the repo into the runner- github environment that it can use the files from the repo
@@ -29,5 +36,87 @@ jobs:
       - name: Build and tag image # build the Docker image and tags it with the short commit SHA
         run: docker build -t ${{ secrets.DOCKER_USERNAME }}/my-web-app:${{ env.COMMIT_SHA }} .
 
+<<<<<<< HEAD
       - name: Push Docker image # push the tagged image to Docker Hub
         run: docker push ${{ secrets.DOCKER_USERNAME }}/my-web-app:${{ env.COMMIT_SHA }} 
+=======
+      - name: Build and push Docker image
+        id: build-and-push
+        uses: docker/build-push-action@v4
+        with:
+          context: .
+          push: ${{ github.event_name != 'pull_request' }}
+          tags: ${{ steps.meta.outputs.tags }}
+          labels: ${{ steps.meta.outputs.labels }}
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+# # This is a basic workflow to help you get started with Actions
+
+# name: CI
+
+# # Controls when the workflow will run
+# on:
+#   # Triggers the workflow on push or pull request events but only for the "master" branch
+#   push:
+#     branches: [ "master" ]
+#   pull_request:
+#     branches: [ "master" ]
+
+#   # Allows you to run this workflow manually from the Actions tab
+#   workflow_dispatch:
+
+# # A workflow run is made up of one or more jobs that can run sequentially or in parallel
+# jobs:
+#   # This workflow contains a single job called "build"
+#   build:
+#     # The type of runner that the job will run on
+#     runs-on: ubuntu-latest
+
+#     # Steps represent a sequence of tasks that will be executed as part of the job
+#     steps:
+#       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
+#       - uses: actions/checkout@v4
+
+#       # Runs a single command using the runners shell
+#       - name: Run a one-line script
+#         run: echo Hello, world!
+
+#       # Runs a set of commands using the runners shell
+#       - name: Run a multi-line script
+#         run: |
+#           echo Add other actions to build,
+#           echo test, and deploy your project.
+
+#       # Log in to Docker Hub
+#       - name: Log in to Docker Hub
+#         uses: docker/login-action@v3
+#         with:
+#           username: ${{ secrets.DOCKER_USERNAME }}
+#           password: ${{ secrets.DOCKER_PASSWORD }}
+
+#       # Build and push Docker image
+#       - name: Build and push Docker image
+#         run: |
+#           docker build -t my-web-app:latest .
+#           docker push my-web-app:latest
+>>>>>>> 6dca6c008b38b6e2207c2e49919a12b737dd922d
