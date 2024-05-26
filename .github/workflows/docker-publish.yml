@@ -7,8 +7,7 @@ on:
 
 jobs:
   build-push:
-<<<<<<< HEAD
-    name: build the image and push it to Docker Hub # job name
+    name: build the image # job name
     runs-on: ubuntu-latest #  type of runner that will execute the job
     environment: matan
     permissions:
@@ -36,20 +35,9 @@ jobs:
       - name: Build and tag image # build the Docker image and tags it with the short commit SHA
         run: docker build -t ${{ secrets.DOCKER_USERNAME }}/my-web-app:${{ env.COMMIT_SHA }} .
 
-<<<<<<< HEAD
       - name: Push Docker image # push the tagged image to Docker Hub
         run: docker push ${{ secrets.DOCKER_USERNAME }}/my-web-app:${{ env.COMMIT_SHA }} 
-=======
-      - name: Build and push Docker image
-        id: build-and-push
-        uses: docker/build-push-action@v4
-        with:
-          context: .
-          push: ${{ github.event_name != 'pull_request' }}
-          tags: ${{ steps.meta.outputs.tags }}
-          labels: ${{ steps.meta.outputs.labels }}
-          cache-from: type=gha
-          cache-to: type=gha,mode=max
+
 
 
 
