@@ -9,6 +9,7 @@ jobs:
   build-push:
     name: build the image # job name
     runs-on: ubuntu-latest #  type of runner that will execute the job (github hosted runner)
+
     permissions:
       contents: read
       packages: write
@@ -28,11 +29,12 @@ jobs:
         id: vars
         run: echo "COMMIT_SHA=$(echo $GITHUB_SHA | cut -c1-7)" >> $GITHUB_ENV
 
-      - name: Build and tag image
+      - name: Build and push Docker image
         run: |
           docker buildx build \
-            --file "C:/Users/maye/Documents/My_learning/CICD_Lab/Dockerfile" \
-            --tag ${{ secrets.DOCKER_USERNAME }}/my-web-app:${{ env.COMMIT_SHA }} .
+            --file "C:/Users/maye\Documents/My_learning/CICD_Lab/Dockerfile" \
+            --tag ${{ secrets.DOCKER_USERNAME }}/my-web-app:${{ env.COMMIT_SHA }} \
+            --push .
 
       - name: Push Docker image # push the tagged image to Docker Hub
         run: docker push ${{ secrets.DOCKER_USERNAME }}/my-web-app:${{ env.COMMIT_SHA }} 
