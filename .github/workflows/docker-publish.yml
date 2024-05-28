@@ -28,11 +28,11 @@ jobs:
         id: vars
         run: echo "COMMIT_SHA=$(echo $GITHUB_SHA | cut -c1-7)" >> $GITHUB_ENV
 
-      - name: Build and tag image # build the Docker image and tags it with the short commit SHA
+      - name: Build and tag image
         run: |
           docker buildx build \
             --file "C:/Users/maye/Documents/My_learning/CICD_Lab/Dockerfile" \
             --tag ${{ secrets.DOCKER_USERNAME }}/my-web-app:${{ env.COMMIT_SHA }} .
-        
+
       - name: Push Docker image # push the tagged image to Docker Hub
         run: docker push ${{ secrets.DOCKER_USERNAME }}/my-web-app:${{ env.COMMIT_SHA }} 
