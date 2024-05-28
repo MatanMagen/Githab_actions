@@ -8,19 +8,15 @@ on:
 jobs:
   build-push:
     name: build the image # job name
-    runs-on: ubuntu-latest #  type of runner that will execute the job
-    environment: matan
+    runs-on: ubuntu-latest #  type of runner that will execute the job (github hosted runner)
     permissions:
       contents: read
       packages: write
       id-token: write
     
     steps:
-      - name: check out the repo # clone the repo into the runner- github environment that it can use the files from the repo
-        uses: actions/checkout@v3 
-
-      # - name: Set up Docker Buildx
-      #   uses: docker/setup-buildx-action@v3 # enabling advanced build features
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3 # enabling advanced build features
 
       - name: log in to Docker Hub
         uses: docker/login-action@v3
@@ -31,9 +27,11 @@ jobs:
       - name: Extract short commit SHA # to know what was the state of the code at a certain point in time
         id: vars
         run: echo "COMMIT_SHA=$(echo $GITHUB_SHA | cut -c1-7)" >> $GITHUB_ENV
-        
-      - name: Build and tag image # build the Docker image and tags it with the short commit SHA
-        run: docker build -t ${{ secrets.DOCKER_USERNAME }}/my-web-app:${{ env.COMMIT_SHA }} .
 
+      - name: Build and tag image # build the Docker image and tags it with the short commit SHA
+        run: |
+          docker buildx build \
+            --tag ${{ secrets.DOCKER_USERNAME }}/my-web-app:${{ env.COMMIT_SHA }} .
+        
       - name: Push Docker image # push the tagged image to Docker Hub
         run: docker push ${{ secrets.DOCKER_USERNAME }}/my-web-app:${{ env.COMMIT_SHA }} 
