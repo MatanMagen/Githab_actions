@@ -7,17 +7,16 @@ on:
 
 jobs:
   build-push: # job name
-    name: build the image # describes the job's purpose
+    name: build the image 
     runs-on: ubuntu-latest #  type of runner that will execute the job
-    environment: matan
     permissions:
       contents: read
       packages: write
       id-token: write
     
     steps:
-      - name: check out the repo # clone the repo into the runner- github environment that it can use the files from the repo
-        uses: actions/checkout@v3 
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3 # enabling advanced build features
 
       - name: log in to Docker Hub
         uses: docker/login-action@v3
