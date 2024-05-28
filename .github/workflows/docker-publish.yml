@@ -3,7 +3,7 @@ name: Publish Docker image # name of the workflow
 on:
   push:
     branches: 
-      - master # workflow run whenever there is a push to master branch
+      - 'master' # workflow run whenever there is a push to master branch
 
 jobs:
   build-push:
