@@ -31,6 +31,7 @@ jobs:
       - name: Build and tag image # build the Docker image and tags it with the short commit SHA
         run: |
           docker buildx build \
+            --file "C:/Users/maye/Documents/My_learning/CICD_Lab/Dockerfile" \
             --tag ${{ secrets.DOCKER_USERNAME }}/my-web-app:${{ env.COMMIT_SHA }} .
         
       - name: Push Docker image # push the tagged image to Docker Hub
