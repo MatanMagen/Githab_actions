@@ -6,8 +6,8 @@ on:
       - 'master' # workflow run whenever there is a push to master branch
 
 jobs:
-  build-push:
-    name: build the image # job name
+  build-push: # job name
+    name: build the image # describes the job's purpose
     runs-on: ubuntu-latest #  type of runner that will execute the job
     environment: matan
     permissions:
@@ -32,5 +32,5 @@ jobs:
       - name: Build and tag image # build the Docker image and tags it with the short commit SHA
         run: docker build -t ${{ secrets.DOCKER_USERNAME }}/my-web-app:${{ env.COMMIT_SHA }} .
 
-      - name: Push Docker image # push the tagged image to Docker Hub
+      - name: Push Docker image # push the tagged image to Docker Hub with the commit sha
         run: docker push ${{ secrets.DOCKER_USERNAME }}/my-web-app:${{ env.COMMIT_SHA }} 
